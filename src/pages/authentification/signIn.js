@@ -1,34 +1,18 @@
 import React from "react";
-import "./authentification.sass";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-
-function Copyright(props) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
+import "./authentification.sass";
+import MenuItem from "@mui/material/MenuItem";
+import InputLabel from "@mui/material/InputLabel";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 
 const theme = createTheme();
 
@@ -37,9 +21,17 @@ export default function SignIn() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
+      name: data.get("name"),
+      responsabilite: data.get("responsabilite"),
       email: data.get("email"),
       password: data.get("password"),
     });
+  };
+
+  const [responsabilities, setresponsabilities] = React.useState("");
+
+  const handleChange = (event) => {
+    setresponsabilities(event.target.value);
   };
 
   return (
@@ -56,7 +48,7 @@ export default function SignIn() {
         >
           <img src="CEF BW logo.png" alt="" />
           <Typography component="h1" variant="h5">
-            Sign in
+            <a href="#"> Sign in</a> / <a href="#">Sign up</a>
           </Typography>
           <Box
             component="form"
@@ -68,49 +60,54 @@ export default function SignIn() {
               margin="normal"
               required
               fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
+              name="Name"
+              label="Name"
+              type="name"
+              id="name"
+              autoComplete="current-name"
             />
             <TextField
               margin="normal"
               required
               fullWidth
-              name="password"
-              label="Password"
+              name="passwword"
+              label="Mot de passe"
               type="password"
               id="password"
               autoComplete="current-password"
             />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
+            <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-autowidth-label">
+                Responsabilite
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-autowidth-label"
+                id="demo-simple-select-autowidth"
+                value={responsabilities}
+                onChange={handleChange}
+                autoWidth
+                label="Responsabilite"
+              >
+                <MenuItem value={"Local Director"}>Local Director</MenuItem>
+                <MenuItem value={"National Director"}>
+                  National Director
+                </MenuItem>
+                <MenuItem value={"Volunteers"}>Volunteers</MenuItem>
+                <MenuItem value={"professional"}>Professional</MenuItem>
+              </Select>
+            </FormControl>
+            <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
               Sign In
             </Button>
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
+                  Mot de passe oubilie
                 </Link>
               </Grid>
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider>
   );
